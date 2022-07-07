@@ -7,6 +7,12 @@ const routes = [
 
     component: () => import("../views/Index.vue"),
   },
+  {
+    path: "/login",
+    name: "Login",
+
+    component: () => import("../views/Login.vue"),
+  },
 ];
 
 const router = createRouter({
@@ -14,4 +20,12 @@ const router = createRouter({
   routes,
 });
 
+router.beforeEach((to, form, next) => {
+  const isLogin = localStorage.ele_login ? true : false;
+  if (to.path === "/login") {
+    next();
+  } else {
+    isLogin ? next() : next("/login");
+  }
+});
 export default router;
