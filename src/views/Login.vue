@@ -30,7 +30,7 @@
     </div>
     <!-- 登录按钮 -->
     <div class="login-btn">
-      <button>登录</button>
+      <button :disabled="isClick" @click="handleLogin">登录</button>
     </div>
   </div>
 </template>
@@ -49,6 +49,15 @@ export default {
       disabled: false,
       verifyCode: "",
     };
+  },
+  computed: {
+    isClick() {
+      if (!this.phone || !this.verifyCode) {
+        return true;
+      } else {
+        return false;
+      }
+    },
   },
   methods: {
     async getVerifyCode() {
@@ -89,6 +98,24 @@ export default {
           this.disabled = true;
         }
       }, 1000);
+    },
+
+    async handleLogin() {
+      // 取消错误提醒
+      this.errors = {};
+      const res = await this.$axios
+        .post("/api/posts/sms_back", {
+          phone: this.phone,
+          code: this.verifyCode,
+        })
+        .then(() => {
+          // 配置本地存储
+          localStorage.setItem("ele_login", true);
+          this.$router.push("/");
+        })
+        .catch((err) => {
+          this.error = { code: err.response.data.msg };
+        });
     },
   },
 };
