@@ -7,7 +7,7 @@
     <InputGroup
       type="number"
       placeholder="请输入手机号码"
-      v-model="phone"
+      v-model:value="phone"
       :btnTitle="btnTitle"
       :disabled="disabled"
       :error="errors.phone"
@@ -16,7 +16,7 @@
     <!-- 验证码 -->
     <InputGroup
       type="number"
-      v-model="verifyCode"
+      v-model:value="verifyCode"
       placeholder="验证码"
       :error="errors.code"
     />
@@ -52,7 +52,26 @@ export default {
   },
   methods: {
     getVerifyCode() {
-      console.log("获取验证码");
+      console.log(this.phone);
+      if (this.validatePhone()) {
+        console.log("手机号验证成功");
+      }
+    },
+    validatePhone() {
+      if (!this.phone.length) {
+        this.errors = {
+          phone: "请填写手机号",
+        };
+        return false;
+      } else if (!/^1[3456789]\d{9}$/.test(this.phone)) {
+        this.errors = {
+          phone: "请填写正确的手机号",
+        };
+        return false;
+      } else {
+        this.errors = {};
+      }
+      return true;
     },
   },
 };

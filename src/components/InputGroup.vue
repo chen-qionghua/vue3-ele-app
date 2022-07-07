@@ -5,6 +5,7 @@
         :type="type"
         :value="value"
         :placeholder="placeholder"
+        @input="$emit('update:value', $event.target.value)"
         @click="$emit('input', $event.target.value)"
       />
       <button v-if="btnTitle" :disabled="disabled" @click="$emit('btnClick')">
@@ -13,7 +14,7 @@
     </div>
   </div>
   <!-- 错误提醒 -->
-  <div v-if="error" class="invalid-feedback">报错信息</div>
+  <div v-if="error" class="invalid-feedback">{{ error }}</div>
 </template>
 
 
