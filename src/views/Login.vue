@@ -51,10 +51,12 @@ export default {
     };
   },
   methods: {
-    getVerifyCode() {
-      console.log(this.phone);
+    async getVerifyCode() {
       if (this.validatePhone()) {
-        console.log("手机号验证成功");
+        const res = await this.$axios.post("api/posts/sms_send", {
+          phone: this.phone,
+        });
+        console.log(res);
         this.validateBtn();
       }
     },
