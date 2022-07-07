@@ -1,6 +1,6 @@
 <template>
   <div class="text-group">
-    <div class="input-group">
+    <div class="input-group" :class="{ 'is-invalid': error }">
       <input
         :type="type"
         :value="value"

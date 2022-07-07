@@ -55,6 +55,7 @@ export default {
       console.log(this.phone);
       if (this.validatePhone()) {
         console.log("手机号验证成功");
+        this.validateBtn();
       }
     },
     validatePhone() {
@@ -72,6 +73,20 @@ export default {
         this.errors = {};
       }
       return true;
+    },
+    validateBtn() {
+      let time = 13;
+      let timer = setInterval(() => {
+        if (time === 0) {
+          this.btnTitle = "获取验证码";
+          this.disabled = false;
+        } else {
+          //倒计时
+          this.btnTitle = time + "秒后重试";
+          time--;
+          this.disabled = true;
+        }
+      }, 1000);
     },
   },
 };
